@@ -1,0 +1,50 @@
+\documentclass[runningheads]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage[acronyms]{glossaries}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{lipsum}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+% Redefine the glossary section style to match llncs
+\makeatletter
+\renewcommand{\glossarysection}[2][]{
+  \section*{#2}
+  \phantomsection
+  \def\@glossarysection{#2}
+}
+\makeatother
+
+\makenoidxglossaries{}
+\loadglsentries{abbr.tex}
+
+\begin{document}
+
+\title{Mastering the Clock: The Emergence of Deterministic Networking}
+\author{Alexander Hurbean\inst{1} \and
+  Pantelis A. Frangoudis\inst{1}\orcidID{0000-0001-6901-7714}}
+\authorrunning{Hurbean et al.}
+\institute{Technical University of Vienna, 1040 Vienna, Austria}
+
+\maketitle              % typeset the header of the contribution
+
+\begin{abstract}
+  The abstract should briefly summarize the contents of the paper in
+  150--250 words.
+  
+  \keywords{Real time, deterministic networking, time-sensitive networking}
+\end{abstract}
+
+\section{Introduction}
+\section{Overcoming the Limitations of Best-Effort Packet Delivery}
+\section{Real-World Applications of Deterministic Networking}
+\section{The Technical Foundations of Deterministic Networking}
+\section{Conclusion}
+
+\printnoidxglossary[type=acronym,sort=letter,title=Abbreviations]
+
+\bibliographystyle{splncs04}
+\bibliography{export}
+\end{document}
