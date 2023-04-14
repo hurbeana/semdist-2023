@@ -34,10 +34,23 @@
   The abstract should briefly summarize the contents of the paper in
   150--250 words.
   
-  \keywords{Real time, deterministic networking, time-sensitive networking}
+  \keywords{real time, deterministic networking, time sensitive networking}
 \end{abstract}
 
 \section{Introduction}
+
+Rapidly evolving technology and the increasing demand for real-time applications create new network challenges. The traditional best-effort packet delivery approach that standard Ethernet networks offer may not be sufficient to meet the needs of such real-time applications. A recent example of an upcoming application that requires instantaneous, reliable, and time-precise communication is upcoming Industry 4.0 automation, in particular, \gls{iot} and \gls{cps}~\cite{Wollschlaeger2017}. \gls{detnet} emerges as a key solution to address these challenges, providing guaranteed latency and reliability for data transmission in various domains.
+
+The origins of \gls{detnet} can be traced back to the development of IEEE \gls{avb} standards, which aimed to provide synchronized, low-latency streaming of audio and video data over Ethernet networks. The need for such a solution stemmed from the fact that larger audio/video systems were increasingly difficult to maintain and required purpose-built hardware. Additionally, \gls{avb} allows normal Ethernet traffic to coexist with the audio/video traffic, which is a key feature for the adoption of \gls{avb} in professional environments~\cite{Lim2012}. The IEEE 802.1 task group responsible for the \gls{avb} standard renamed it after completion to \gls{tsn} to better reflect its scope that has been extended to include other types of real-time traffic, such as automotive and industrial control traffic~\cite{Wollschlaeger2017}.
+
+In parallel, industrial serial field bus systems and industrial Ethernet, such as ProfiBus, Modbus, and CANBus, were developed to address the specific needs of automation and control systems in industrial environments, since best-effort packet services, such as standard Ethernet, were not suitable for such applications. The main issues with solutions such as standard Ethernet networking include high cost and unpredictability of traffic due to collisions and congestion loss~\cite{Finn2018}. Still, these early efforts laid the groundwork for the evolution of \gls{detnet}, paving the way for the advancement we see today. This paper explores the concept of \gls{detnet}, its importance in overcoming the limitations of best-effort packet delivery, and its relevance in many real-world applications. The paper begins with a ``background'' section that provides a historical context and discusses the developments of \gls{detnet} and time-sensitive networking. After that, it examines the constraints of best-effort packet delivery and the need for specific latency and reliability guarantees for certain classes of applications. Additionally, an overview of proposed IEEE 802.11 Standards is presented, which aims to provide solutions for the described challenges.
+
+Subsequently, the paper provides an overview of the different domains where \gls{detnet} plays a vital role, such as industrial automation, cellular operation, and professional multimedia. Within each domain, exemplary use cases for \gls{detnet} are presented, showcasing how \gls{detnet} can significantly enhance performance, safety, and efficiency.
+
+Finally, the paper discusses some technical foundations that enable \gls{detnet} to build on best-effort packet networks and offer the required guarantees for latency, reliability, and jitter. Key architectural components, protocols, and enabling technologies will be examined, providing a deeper understanding of the technical foundations of \gls{detnet}.
+
+By examining the history, applications, and technologies underpinning \gls{detnet}, this paper aims to provide an overview and understanding of the significance of \gls{detnet}. With the continued growth of the \gls{iot}, \gls{cps}, and Industry 4.0, the importance of \gls{detnet} is poised to expand, shaping the future of connectivity.
+
 \section{Overcoming the Limitations of Best-Effort Packet Delivery}
 \section{Real-World Applications of Deterministic Networking}
 \section{The Technical Foundations of Deterministic Networking}
