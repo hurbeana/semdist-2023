@@ -2,11 +2,22 @@
 \usepackage[T1]{fontenc}
 \usepackage[acronyms]{glossaries}
 \usepackage{etoolbox}
+\usepackage{xurl}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{lipsum}
 \renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\graphicspath{ {./imgs/} }
+
+\newcommand*{\captionsource}[2]{%
+  \caption[{#1}]{%
+    #1%
+    \\\hspace{\linewidth}%
+    \textbf{Source:} #2%
+  }%
+}
 
 % Redefine the glossary section style to match llncs
 \makeatletter
@@ -23,23 +34,21 @@
 \begin{document}
 
 \title{The Emergence of Deterministic Networking}
-\author{Alexander Hurbean\inst{1} \and
-  Pantelis A. Frangoudis\inst{1}\orcidID{0000-0001-6901-7714}}
-\authorrunning{Hurbean et al.}
+\author{Alexander Hurbean\inst{1}}
+\authorrunning{Hurbean A.}
 \institute{Technical University of Vienna, 1040 Vienna, Austria}
 
 \maketitle              % typeset the header of the contribution
 
 \begin{abstract}
-  The abstract should briefly summarize the contents of the paper in
-  150--250 words.
+  Deterministic networking is a transforming technology that changes the way real-time applications use communication networks. This paper provides a comprehensive overview of the technical foundations and enabling technologies driving deterministic networking. It also presents a historical background on how the topic of deterministic networking came to be. Key technologies are also being explored, such as \gls{tsn}, which offers features like clock synchronisation, traffic shaping, frame delay, and frame replication to make networks more reliable. Deterministic networking has applications in many different fields, such as industrial robotics, power grids, and self-driving cars. Furthermore, its compatibility with legacy networks enables a smooth transition towards deterministic behaviour. This paper shows how predictable networking could help improve communication networks for real-time applications, making them more efficient and safer. As more industries adopt deterministic networking, its transformative power is set to change how we interact and work in real-time settings, opening up new opportunities for a wide range of industries and uses.
   
   \keywords{real time, deterministic networking, time sensitive networking}
 \end{abstract}
 
 \section{Introduction}
 
-As technology, the Internet, and industries rapidly evolve the demand for real-time applications increase and new networking challenges arise. Traditional best-effort packet delivery offered by standard Ethernet networks may not adequately meet the needs of real-time applications, such as the upcoming Industry 4.0 automation, particularly in the \gls{iot} and \gls{cps}~\cite{Wollschlaeger2017}. For instance, industrial networks began to expand beyond the confines of local area networks, necessitating deterministic characteristics across wide-area networks, such as those connecting multiple factories or linking a factory to cloud-based systems. Another issue is the various technologies currently used in industrial networks such as \gls{ecat}, and \gls{can}, which are proprietary, not interoperable, and require dedicated hardware. \gls{detnet} emerges as a key solution, providing guaranteed latency and reliability for packet data transmission even over multi-hop paths and allowing for the integration of different technologies over packet networks.
+As technology, the Internet, and industries rapidly evolve the demand for real-time applications increases and new networking challenges arise. Traditional best-effort packet delivery offered by standard Ethernet networks may not adequately meet the needs of real-time applications, such as the upcoming Industry 4.0 automation, particularly in the \gls{iot} and \gls{cps}~\cite{Wollschlaeger2017}. For instance, industrial networks began to expand beyond the confines of local area networks, necessitating deterministic characteristics across wide-area networks, such as those connecting multiple factories or linking a factory to cloud-based systems. Another issue is the various technologies currently used in industrial networks such as \gls{ecat}, and \gls{can}, which are proprietary, not interoperable, and require dedicated hardware. \gls{detnet} emerges as a key solution, providing guaranteed latency and reliability for packet data transmission even over multi-hop paths and allowing for the integration of different technologies over packet networks.
 
 The \gls{detnet} \gls{qos} focuses on worst-case values for end-to-end latency, jitter, and packet misordering, as these values impact real-time system performance. \gls{detnet} employs three techniques, as outlined in RFC 8655~\cite{rfc8655}, to provide these \gls{qos} guarantees:
 
@@ -53,7 +62,7 @@ These techniques can be applied individually or in combination, with eight possi
 
 This paper explores the concept of \gls{detnet}, its importance in overcoming the limitations of best-effort packet delivery, and its relevance in many real-world applications.
 
-The paper begins with a ``Background'' section that provides a historical context and discusses the developments of \gls{detnet} and time-sensitive networking. It then examines the constraints of best-effort packet delivery and the need for specific latency and reliability guarantees for certain application classes. Additionally, an overview of proposed IEEE 802.11 standards is presented.
+The paper begins with a ``Background'' section that provides a historical context and discusses the developments of \gls{detnet} and time-sensitive networking. It then examines the constraints of best-effort packet delivery and the need for specific latency and reliability guarantees for certain application classes. Additionally, an overview of proposed IEEE 802.1 standards is presented.
 
 The paper subsequently provides an overview of different domains where \gls{detnet} plays a vital role, such as industrial automation, cellular operation, and professional multimedia. Within each domain, the use case for \gls{detnet} is being discussed, alongside the improvements that \gls{detnet} brings to the table.
 
@@ -69,7 +78,7 @@ This section provides a deeper historical context of the key developments and te
 The origins of \gls{detnet} can be traced back to the development of IEEE \gls{avb} standards, which aimed to provide synchronized, low-latency streaming of audio and video data over Ethernet networks~\cite{Yang2019}. The need for such a solution stemmed from the fact that larger audio/video systems were increasingly difficult to maintain and required purpose-built hardware. Additionally, \gls{avb} allows normal Ethernet traffic to coexist with the audio/video traffic, which is a key feature for the adoption of \gls{avb} in professional environments~\cite{Lim2012}. The IEEE 802.1 task group responsible for the \gls{avb} standard renamed it to \gls{tsn} after completion to better reflect its extended scope, which includes other types of real-time traffic, such as automotive and industrial control traffic~\cite{Wollschlaeger2017}. Although \gls{avb} seemed very promising for many other applications as well, it suffered from limitations such as only supporting seven hops and only operating on Layer 2 thus not allowing communications across networks~\cite{Imtiaz2009}.
 
 \subsection*{Industrial Fieldbus and Industrial Ethernet}
-In parallel, industrial serial field bus systems, such as ProfiBus or Modbus, and industrial Ethernet, were developed to address the specific needs of automation and control systems in industrial environments since best-effort packet services, like standard Ethernet, were not suitable for such applications. The main issues with solutions such as standard Ethernet networking include high cost and unpredictability of traffic due to collisions and congestion loss~\cite{Finn2018}. Still, these early efforts laid the groundwork for the evolution of \gls{detnet}, paving the way for the advancements we see today. 
+In parallel, industrial serial field bus systems, such as ProfiBus or Modbus, and industrial Ethernet, were developed to address the specific needs of automation and control systems in industrial environments since best-effort packet services, like standard Ethernet, were not suitable for such applications~\cite{Sauter2010}. The main issues with solutions such as standard Ethernet networking include high cost and unpredictability of traffic due to collisions and congestion loss~\cite{Finn2018}. Still, these early efforts laid the groundwork for the evolution of \gls{detnet}, paving the way for the advancements we see today. 
 
 \subsection*{Wireless Solutions}
 Wireless solutions have also been developed to address the need for mobility and flexibility in industrial settings. However, wireless communication has its own set of challenges, such as limited bandwidth and potential interference. To overcome these challenges, new wireless technologies such as WirelessHART~\cite{Song2008} and ISA100~\cite{Adriano2018} have been developed specifically for industrial automation and control applications. These technologies provide reliable and secure communication with low latency and high data rates, making them ideal for use in critical control systems. Despite the challenges, wireless solutions have become increasingly popular in industrial settings due to their ease of installation and flexibility.
@@ -104,7 +113,14 @@ Standards concerning \gls{tsn} are already finished and released by the IEEE 802
 
 \section{Overcoming the Limitations of Best-Effort Packet Delivery}
 
-The limitations of the Internets best-effort packet delivery service have been a challenge for applications that require specific latency and reliability guarantees. For instance, industrial control systems, telemedicine, and financial trading require timely and predictable packet delivery. The traditional approach of overprovisioning the network to ensure performance is not scalable and can be prohibitively expensive. Therefore, there is a need for a new networking paradigm that provides deterministic guarantees for specific traffic flows. This is where \gls{detnet} comes in. \gls{detnet} is an architecture that enables deterministic packet forwarding and delivery in a network~\cite{Finn2018}.
+The limitations of the Internet's best-effort packet delivery service have been a challenge for applications that require specific latency and reliability guarantees. For instance, industrial control systems, telemedicine, and financial trading require timely and predictable packet delivery. The traditional approach of overprovisioning the network to ensure performance is not scalable and can be prohibitively expensive. Therefore, there is a need for a new networking paradigm that provides deterministic guarantees for specific traffic flows. This is where \gls{detnet} comes in. \gls{detnet} is an architecture that enables deterministic packet forwarding and delivery in a network~\cite{Finn2018}. An example of how this architecture can look can be seen in Figure~\ref{fig:detnet-architecture}. The subnetworks shown in Figure~\ref{fig:detnet-architecture} can be implemented using \gls{tsn}, \gls{mpls} or optical transport network~\cite{rfc8655}. For more information on this refer to the \gls{detnet} architecture RFC~\cite{rfc8655}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{detnet_simple_arch}
+  \caption{Example of a \gls{detnet} architecture}{\cite{rfc8655}}
+  \label{fig:detnet-architecture}
+\end{figure}
 
 An example of \gls{detnet} in action can be seen in a factory that relies on real-time control systems. With \gls{detnet}, critical control packets can be given priority and delivered with low jitter and high reliability, ensuring that the machines on the factory floor are properly automated and operate efficiently. This also allows for better coordination between different machines and processes, making the entire system more responsive and reliable overall~\cite{rfc8578}.
 
@@ -115,8 +131,7 @@ To overcome the limitations of best-effort packet delivery, \gls{detnet} leverag
 \begin{itemize}
   \item \gls{tsn}: \gls{tsn} is a set of IEEE 802.1 standards that provide deterministic guarantees for Ethernet-based networks, which can be applied in \gls{detnet} environments~\cite{rfc9023}.
   \item Path redundancy: \gls{detnet} employs frame replication and elimination mechanisms to ensure that critical messages have multiple paths to their destination, increasing reliability and fault tolerance~\cite{rfc8655}. In addition to that, a packet ordering mechanism is used to ensure that packets are reordered in the correct order, which may be needed for time-sensitive applications~\cite{ietf-detnet-pof-02}.
-  \item Network slicing: This approach allows network operators to dedicate specific resources and create virtual networks with deterministic guarantees for specific applications~\cite{rfc8655}.
-  \item Edge computing: By deploying computing resources closer to the edge of the network, \gls{detnet} can provide lower latency and faster processing for time-sensitive applications~\cite{rfc8655}.
+  \item Network slicing: This approach allows network operators to dedicate specific resources and create virtual networks with deterministic guarantees for specific applications~\cite{Bhattacharjee2021,rfc8578}.
 \end{itemize}
 
 However, implementing \gls{detnet} requires changes to the network infrastructure and protocols, which can be challenging and time-consuming. One of the key challenges of implementing \gls{detnet} is ensuring interoperability with existing network protocols and equipment. \gls{detnet} requires brand-new protocols and mechanisms for resource reservation, traffic engineering, and congestion control that legacy network devices might not be able to support. Therefore, network operators may need to upgrade their equipment or deploy new hardware that supports \gls{detnet}. In addition, \gls{detnet} may also require changes to the network architecture, such as the deployment of edge computing and network slicing, to provide end-to-end determinism~\cite{rfc8655}.
@@ -143,7 +158,7 @@ Building automation systems can leverage deterministic networking for various ap
 Deterministic networking ensures that building automation systems can maintain a high level of efficiency, safety, and responsiveness in diverse environments, paving the way for smarter and more sustainable buildings.
 
 \subsection{Wireless for Industrial Applications}
-Deterministic networking is crucial for wireless industrial applications, where network convergence using 6TiSCH and common protocol development is essential~\cite{rfc9023}. By employing deterministic networking, unified wireless networks and management can be achieved, increasing reliability and scalability in industrial settings.
+Deterministic networking is crucial for wireless industrial applications, where network convergence using 6TiSCH\footnote{6TiSCH (IPv6 over the TSCH mode of IEEE 802.15.4e) is a networking protocol that combines IPv6 and the Time-Slotted Channel Hopping (TSCH) mode of IEEE 802.15.4e standard. It provides deterministic communication capabilities in low-power and lossy networks by dividing time into fixed-length timeslots and allocating them for scheduled transmission of data~\cite{Vilajosana2020,Dujovne2014}.} and common protocol development is essential~\cite{rfc9023}. By employing deterministic networking, unified wireless networks and management can be achieved, increasing reliability and scalability in industrial settings.
 
 In this context, deterministic networking allows for efficient schedule management by a \gls{pce} and facilitates 6TiSCH security considerations, ensuring a robust and secure wireless network for industrial applications.
 
@@ -188,13 +203,34 @@ One of the key enabling technologies for deterministic networking is \gls{tsn}, 
 One of the fundamental requirements for deterministic networking is clock synchronization. In a time-triggered network, all devices must have a common notion of time to ensure that data is transmitted at the correct time. This requires accurate clock synchronization across the network, which can be achieved using protocols such as \gls{ptp} or \gls{tsn}. \gls{ptp} is a widely adopted standard for clock synchronization in industrial automation and power grids, while \gls{ptp} offers enhanced clock synchronization capabilities for Ethernet-based networks. By ensuring accurate clock synchronization, deterministic networking can provide reliable and predictable communication for real-time applications.
 
 \subsection*{Time Aware Shaper (IEEE 802.1Qbv)}
-Another key technology for deterministic networking is the \gls{tas}, which is a traffic shaping mechanism that ensures that data is transmitted at the correct time. In a time-triggered network, data must be transmitted in fixed time slots to ensure that it arrives at its destination on time. \gls{tas} enforces this requirement by shaping traffic according to a predefined schedule, which is determined by the network topology and traffic patterns. By using \gls{tas}, deterministic networking can provide low-latency, high-reliability communication for a variety of applications.
+Another key technology for deterministic networking is the \gls{tas}, which is a traffic shaping mechanism that ensures that data is transmitted at the correct time. In a time-triggered network, data must be transmitted in fixed time slots to ensure that it arrives at its destination on time. \gls{tas} enforces this requirement by shaping traffic according to a predefined schedule, which is determined by the network topology and traffic patterns. As Figure~\ref{fig:tas} shows, the \gls{tas} opens and closes queues with differently classed traffic based on time and the gate control list. By using \gls{tas}, deterministic networking can provide low-latency, high-reliability communication for a variety of applications.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{tas}
+  \captionsource{Time Aware Shaper Diagram}{Kellermeier et al.~\cite{Kellermeier2018}}
+  \label{fig:tas}
+\end{figure}
 
 \subsection*{Frame Preemption (IEEE 802.1Qbu)}
-Another important \gls{tsn} feature is frame preemption, which allows high-priority traffic to interrupt and preempt lower-priority traffic in real-time. This ensures that critical messages are delivered without delay, even in congested network conditions. Frame Preemption works by inserting a special message, called a preemption frame, into the network that signals the lower-priority traffic to pause transmission and allow the high-priority traffic to be transmitted immediately. This feature is particularly useful in industrial automation and control systems, where real-time communication is essential for safety and efficiency.
+Another important \gls{tsn} feature is frame preemption, which allows high-priority traffic to interrupt and preempt lower-priority traffic in real-time. This ensures that critical messages are delivered without delay, even in congested network conditions. Frame Preemption works by inserting a special message, called a preemption frame, into the network that signals the lower-priority traffic to pause transmission and allows the high-priority traffic to be transmitted immediately. Figure~\ref{fig:fpem} shows how frame preemption allows time-critical traffic to be transmitted immediately, thus lowering its perceived latency. This feature is particularly useful in industrial automation and control systems, where real-time communication is essential for safety and efficiency.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{frame_preemption}
+  \captionsource{Frame Preemption Diagram}{\url{https://cn.marvell.com/blogs/2022/11/tsn-and-prestera-dx1500-a-bridge-across-the-it-ot-divide/}}
+  \label{fig:fpem}
+\end{figure}
 
 \subsection*{Frame Replication and Elimination for Reliability (IEEE 802.1CB)}
-\gls{frer} is a \gls{tsn} feature that provides redundancy for critical traffic. It works by replicating critical messages and sending them over multiple paths to ensure that at least one copy reaches its destination. If a message is lost or corrupted on one path, it can be recovered from another path. This feature is particularly useful in industrial automation and control systems, where reliability is essential for safety and efficiency.
+\gls{frer} is a \gls{tsn} feature that provides redundancy for critical traffic (see Figure~\ref{fig:frer}). It works by replicating critical messages and sending them over multiple paths to ensure that at least one copy reaches its destination. If a message is lost or corrupted on one path, it can be recovered from another path. This feature is particularly useful in industrial automation and control systems, where reliability is essential for safety and efficiency.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{frer}
+  \captionsource{Mechanisms of packet replication and elimination}{Yang et al.~\cite{Yang2019}}
+  \label{fig:frer}
+\end{figure}
 
 \subsection*{Network Slicing}
 Network slicing is another critical aspect of deterministic networking, enabling the partitioning of network resources to support different types of traffic with varying requirements. By creating virtual network slices, each with their own \gls{qos} guarantees, deterministic networking can ensure that real-time applications receive the necessary resources and performance guarantees while coexisting with non-real-time traffic~\cite{ietf-teas-ietf-network-slices-19}.
