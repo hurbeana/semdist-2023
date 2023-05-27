@@ -3,7 +3,7 @@
 \usepackage[acronyms]{glossaries}
 \usepackage{etoolbox}
 \usepackage{xurl}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{lipsum}
@@ -117,8 +117,8 @@ The limitations of the Internet's best-effort packet delivery service have been 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{detnet_simple_arch}
-  \caption{Example of a \gls{detnet} architecture}{\cite{rfc8655}}
+  \includegraphics[width=0.7\textwidth]{detnet_simple_arch}
+  \captionsource{Example of a \gls{detnet} architecture}{\url{https://www.comsoc.org/publications/ctn/quick-and-dead-rise-deterministic-networks} \& RFC8655\cite{rfc8655}}
   \label{fig:detnet-architecture}
 \end{figure}
 
@@ -205,9 +205,9 @@ One of the fundamental requirements for deterministic networking is clock synchr
 \subsection*{Time Aware Shaper (IEEE 802.1Qbv)}
 Another key technology for deterministic networking is the \gls{tas}, which is a traffic shaping mechanism that ensures that data is transmitted at the correct time. In a time-triggered network, data must be transmitted in fixed time slots to ensure that it arrives at its destination on time. \gls{tas} enforces this requirement by shaping traffic according to a predefined schedule, which is determined by the network topology and traffic patterns. As Figure~\ref{fig:tas} shows, the \gls{tas} opens and closes queues with differently classed traffic based on time and the gate control list. By using \gls{tas}, deterministic networking can provide low-latency, high-reliability communication for a variety of applications.
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{tas}
+  \includegraphics[width=0.8\linewidth]{tas}
   \captionsource{Time Aware Shaper Diagram}{Kellermeier et al.~\cite{Kellermeier2018}}
   \label{fig:tas}
 \end{figure}
@@ -215,7 +215,7 @@ Another key technology for deterministic networking is the \gls{tas}, which is a
 \subsection*{Frame Preemption (IEEE 802.1Qbu)}
 Another important \gls{tsn} feature is frame preemption, which allows high-priority traffic to interrupt and preempt lower-priority traffic in real-time. This ensures that critical messages are delivered without delay, even in congested network conditions. Frame Preemption works by inserting a special message, called a preemption frame, into the network that signals the lower-priority traffic to pause transmission and allows the high-priority traffic to be transmitted immediately. Figure~\ref{fig:fpem} shows how frame preemption allows time-critical traffic to be transmitted immediately, thus lowering its perceived latency. This feature is particularly useful in industrial automation and control systems, where real-time communication is essential for safety and efficiency.
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{frame_preemption}
   \captionsource{Frame Preemption Diagram}{\url{https://cn.marvell.com/blogs/2022/11/tsn-and-prestera-dx1500-a-bridge-across-the-it-ot-divide/}}
@@ -225,10 +225,10 @@ Another important \gls{tsn} feature is frame preemption, which allows high-prior
 \subsection*{Frame Replication and Elimination for Reliability (IEEE 802.1CB)}
 \gls{frer} is a \gls{tsn} feature that provides redundancy for critical traffic (see Figure~\ref{fig:frer}). It works by replicating critical messages and sending them over multiple paths to ensure that at least one copy reaches its destination. If a message is lost or corrupted on one path, it can be recovered from another path. This feature is particularly useful in industrial automation and control systems, where reliability is essential for safety and efficiency.
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\linewidth]{frer}
-  \captionsource{Mechanisms of packet replication and elimination}{Yang et al.~\cite{Yang2019}}
+  \includegraphics[width=0.8\linewidth]{frer}
+  \captionsource{Mechanisms of frame replication and elimination}{Yang et al.~\cite{Yang2019}}
   \label{fig:frer}
 \end{figure}
 
